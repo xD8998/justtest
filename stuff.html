@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS and Game Compatibility Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            color: #333333;
+        }
+        .os-info {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .games {
+            list-style-type: none;
+            padding: 0;
+        }
+        .games li {
+            background-color: #e0e0e0;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OS and Game Compatibility Checker</h1>
+        <div id="os-info" class="os-info"></div>
+        <h2>Popular Games</h2>
+        <ul id="popular-games" class="games"></ul>
+        <h2>Compatible Games</h2>
+        <ul id="compatible-games" class="games"></ul>
+    </div>
+
+    <script>
+        function detectOS() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            let os = "Unknown OS";
+
+            if (/windows phone/i.test(userAgent)) {
+                os = "Windows Phone";
+            } else if (/windows/i.test(userAgent)) {
+                os = "Windows";
+            } else if (/macintosh|mac os x/i.test(userAgent)) {
+                os = "Mac OS";
+            } else if (/linux/i.test(userAgent)) {
+                os = "Linux";
+            } else if (/android/i.test(userAgent)) {
+                os = "Android";
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                os = "iOS";
+            }
+
+            return os;
+        }
+
+        function displayOSInfo() {
+            const os = detectOS();
+            document.getElementById('os-info').textContent = `You are using: ${os}`;
+            displayGames(os);
+        }
+
+        function displayGames(os) {
+            const popularGames = ["Fortnite", "Minecraft", "Among Us", "Genshin Impact"];
+            const compatibleGames = {
+                "Windows": ["Counter-Strike", "Overwatch", "World of Warcraft"],
+                "Mac OS": ["The Sims 4", "Stardew Valley", "Civilization VI"],
+                "Linux": ["Dota 2", "CS:GO", "Team Fortress 2"],
+                "Android": ["PUBG Mobile", "Clash of Clans", "Mobile Legends"],
+                "iOS": ["Pokemon Go", "Call of Duty Mobile", "Among Us"],
+                "Windows Phone": ["Minecraft", "Asphalt 8", "Modern Combat 5"],
+                "Unknown OS": ["Game 1", "Game 2", "Game 3"]
+            };
+
+            const popularGamesList = document.getElementById('popular-games');
+            const compatibleGamesList = document.getElementById('compatible-games');
+
+            popularGames.forEach(game => {
+                const listItem = document.createElement('li');
+                listItem.textContent = game;
+                popularGamesList.appendChild(listItem);
+            });
+
+            compatibleGames[os].forEach(game => {
+                const listItem = document.createElement('li');
+                listItem.textContent = game;
+                compatibleGamesList.appendChild(listItem);
+            });
+        }
+
+        window.onload = displayOSInfo;
+    </script>
+</body>
+</html>
